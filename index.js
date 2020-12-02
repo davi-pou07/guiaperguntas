@@ -26,15 +26,42 @@ app.use(bodyParser.json())
 
 //Rotas
 app.get("/", (req, res) => {
-    //Informa variavéis que irão ser apresentadas no inde   
-    res.render("index");
+    //Informa variavéis que irão ser apresentadas no index
+    //responsavel por achar todas as perguntas -> select * from Perguntas   
+    Pergunta.findAll({
+        raw: true /*Para limpar dados desnecessario*/, order: [
+            ["id", "DESC"] //crescente ASC || DESC = Decrescente
+        ]
+    }).then(perguntas => {
+        //console.log(perguntas)
+        res.render("index", {
+            perguntas: perguntas
+        });
 
+    })
 })
-
-app.get("/forum", (req, res) => { 
+//Renderizando FORUM.EJS
+app.get("/forum", (req, res) => {
 
     res.render("forum");
 
+})
+//Para redirecionar para uma pagina padrão pesquisando o id da pergunta
+app.get("/pergunta/:id", (req, res) => {
+    var id = req.params.id
+    //em pergunta encontre somente uma onde o id = var id
+    Pergunta.findOne({
+        where: { id: id }
+        //depois mostre se a pergunta não for indefinida a pagina pergunta.ejs
+    }).then(pergunta => {
+        if (pergunta != undefined) {
+            res.render("pergunta", {
+                pergunta: pergunta
+            })
+        } else {
+            res.redirect("/")
+        }
+    })
 })
 //Rota do BANCO
 app.post("/save", (req, res) => {
@@ -50,6 +77,7 @@ app.post("/save", (req, res) => {
         res.redirect("/");
     });
 })
+
 app.listen(8080, () => {
     console.log("Servidor rodando!")
 })
