@@ -32,10 +32,10 @@ app.get("/", (req, res) => {
         raw: true /*Para limpar dados desnecessario*/, order: [
             ["id", "DESC"] //crescente ASC || DESC = Decrescente
         ]
-    }).then(perguntas => {
+    }).then(pergunta => {
         //console.log(perguntas)
         res.render("index", {
-            perguntas: perguntas
+            pergunta: pergunta
         });
 
     })
@@ -47,7 +47,7 @@ app.get("/forum", (req, res) => {
 
 })
 //Para redirecionar para uma pagina padrão pesquisando o id da pergunta
-app.get("/pergunta/:id", (req, res) => {
+app.get("/pergunta/:id",(req, res) => {
     var id = req.params.id
     //em pergunta encontre somente uma onde o id = var id
     Pergunta.findOne({
@@ -55,8 +55,8 @@ app.get("/pergunta/:id", (req, res) => {
         //depois mostre se a pergunta não for indefinida a pagina pergunta.ejs
     }).then(pergunta => {
         if (pergunta != undefined) {
-            res.render("pergunta", {
-                pergunta: pergunta
+            res.render("pergunta",{
+                pergunta:pergunta
             })
         } else {
             res.redirect("/")

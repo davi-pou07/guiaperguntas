@@ -13,7 +13,7 @@
                         <a href="/forum" class="btn btn-primary">Perguntar</a>
                         <br>
                         <! --percorrer o arrey do banco (formato que o banco tras os dados) -->
-                            <%perguntas.forEach(pergunta=>{%>
+                            <%pergunta.forEach(pergunta=>{%>
                             <br>
                             <! -- card para organizar em quadros (bootstrap) -->
                                 <div class="card">
@@ -21,8 +21,8 @@
                                         <! -- tras o titulo da pergunta-->
                                             <h3><%=pergunta.titulo%></h3>
                                     </div>
-                                    <div class="card-footer">
-                                        <button class="btn btn-success">Responder</button>
+                                    <a href="/pergunta/<%= pergunta.id %>"><div class="card-footer">
+                                        <button class="btn btn-success">Responder</button></a>
                                     </div>
                                 </div>
                                 <%})%>
